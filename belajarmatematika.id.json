@@ -1,0 +1,142 @@
+{
+    "openapi":"3.0.0",
+    "info": {
+        "title": "belajarmatematika.id RestFull API",
+        "description": "Dokumentasi API untuk project belajarmatematika.id",
+        "version": "1.0.0"
+    },
+    "servers": [
+
+    ],
+    "paths": {
+        "/register":{
+
+        },
+        "/topic":{
+            "get": {
+                "summary": "get all topic",
+                "description": "get all topic by specified class",
+                "parameters": [
+                    {
+                        "name": "class",
+                        "in": "query",
+                        "required": true,
+                        "description": "get list of topic by class",
+                        "schema":{
+                            "type": "string",
+                            "nullable": false
+                        },
+                        "examples": {
+                            "class4":{
+                                "summary": "get all topic by class4",
+                                "value":"kelas4"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "succes get all topic data",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/schemas/arrayOfTopik"
+                                },
+                                "examples": {
+                                    "topik kelas 5":{
+                                        "summary": "semua topik di kelas 5",
+                                        "value":[
+                                            {
+                                                "id":1,
+                                                "name": "Volume Bangun ruang"
+                                            },
+                                            {
+                                                "id":2,
+                                                "name": "Bangun Datar"
+                                            }
+                                        ]
+                                    },
+                                    "topik kelas 6":{
+                                        "summary": "semua topik di kelas 6",
+                                        "value":[
+                                            {
+                                                "id":1,
+                                                "name": "Operasi Hitung Bilangan Bulat"
+                                            },
+                                            {
+                                                "id":2,
+                                                "name": "Mengumpulkan dan Mengolah Data"
+                                            },
+                                            {
+                                                "id":3,
+                                                "name": "Menghitung Debit"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "user": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "password":{
+                        "type": "string"
+                    }
+                }
+            },
+            "topik":{
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "arrayOfTopik": {
+                "type": "array",
+                "items":{
+                    "$ref":"#/components/schemas/topik"
+                }
+            },
+            "arrayofMateri": {
+                "type": "array",
+                "items":{
+                    "$ref":"#/components/schemas/materi"
+                }
+            },
+            "materi":{
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "title":{
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

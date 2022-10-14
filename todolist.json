@@ -1,0 +1,456 @@
+{
+    "openapi":"3.0.3",
+    "info": {
+        "title": "Todo List Restful API",
+        "version": "1.0.0",
+        "description": "OpenAPI for todolist",
+        "termsOfService": "https://www.programmerzamannow.com",
+        "contact": {
+            "name": "Muhammad Devano Zaidan",
+            "email": "devanozaidan@gmail.com",
+            "url": "/"
+        },
+        "license": {
+            "name": "APACHE 2.0",
+            "url": "https://www.apache.org/license/LICENSE-2.0"
+        }
+    },
+    "servers": [
+        {
+            "url": "https://{environment}.programmerzamannow.com/api/v1",
+            "variables": {
+                "environment": {
+                    "default": "dev",
+                    "enum": [
+                        "dev",
+                        "qa",
+                        "prod"
+                    ]
+                }
+            },
+            "description": "Todolist resful api server"
+        }
+    ],
+    "externalDocs": {
+        "description": "youtube programmer zaman now",
+        "url": "https://www.youtube.com/c/programmerzamannow"
+    },
+    "paths": {
+        "/todolist":{
+            "get":{
+                "tags": ["todolist"],
+                "summary": "get all todolist entity",
+                "description": "get all todolist by default",
+                "parameters": [
+                    {
+                        "name": "include_done ",
+                        "in": "query",
+                        "required": false,
+                        "description": "Include done todo list",
+                        "schema": {
+                            "type": "boolean",
+                            "nullable": true,
+                            "default" : false
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "description": "filter todolist by name",
+                        "schema": {
+                            "type": "string",
+                            "nullable": true,
+                            "minLength": 1,
+                            "maxLength": 100
+                        },
+                        "examples": {
+                            "java":{
+                                "description": "example name java",
+                                "value"  : "java"
+                            },
+                            "php":{
+                                "description": "example name php",
+                                "value": "php"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "succes get all todolist",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "priority": {
+                                                "type": "number",
+                                                "format": "int32"
+                                            },
+                                            "tags" :{
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "success":{
+                                        "description": "Example succces get all todolist",
+                                        "value": [
+                                            {
+                                                "id":1,
+                                                "name": "Java",
+                                                "priority": 3,
+                                                "tags": [
+                                                    "java",
+                                                    "programming"
+                                                ]
+                                            },
+                                            {
+                                                "id":2,
+                                                "name": "php",
+                                                "priority": 2,
+                                                "tags": [
+                                                    "php",
+                                                    "programming"
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post":{
+                "tags": ["todolist"],
+                "summary": "Create new todolist",
+                "description": "Crate new todolist persist to database",
+                "requestBody" : {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type" :"string",
+                                        "minLength": 1,
+                                        "required": true
+                                    },
+                                    "priority":{
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "required":true,
+                                        "default": 1
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "required": false,
+                                        "minItems": 1,
+                                        "items": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "java" : {
+                                    "description": "example create todolist java",
+                                    "value": {
+                                        "name" : "Belajar programming java",
+                                        "priority" : 3,
+                                        "tags": [
+                                            "java",
+                                            "programming"
+                                        ]
+                                    }
+                                },
+                                "php" : {
+                                    "description": "example create todolist php",
+                                    "value" : {
+                                        "name" : "Belajar Programming php",
+                                        "priority" : 2,
+                                        "tags": [
+                                            "php",
+                                            "programming"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "get todolist succes",
+                        "content": {
+                            "application/json" : {
+                                "schema": {
+                                    "type" : "object",
+                                    "properties": {
+                                        "id": {
+                                            "type" : "string"
+                                        },
+                                        "name": {
+                                            "type" :"string"
+                                        },
+                                        "priority":{
+                                            "type": "number",
+                                            "format": "int32"
+                                        },
+                                        "tags": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "java" : {
+                                        "description": "Succes create java todolist",
+                                        "value": {
+                                            "id":1,
+                                            "name": "Belajar pemrograman java",
+                                            "priority": 3,
+                                            "tags": [
+                                                "java",
+                                                "programming"
+                                            ]
+                                        }
+                                    },
+                                    "php" : {
+                                        "description": "Succes create php todolist",
+                                        "value": {
+                                            "id":2,
+                                            "name": "Belajar pemrograman php",
+                                            "priority": 2,
+                                            "tags": [
+                                                "php",
+                                                "programming"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/todolist/{todolistId}":{
+            "put":{
+                "tags": ["todolist"],
+                "summary": "update existing todolist",
+                "description": "update existing todolist in database",
+                "parameters": [
+                    {
+                        "name": "todolistId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Todolist id for updated",
+                        "schema" : {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody" : {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "required": true
+                                    },
+                                    "priority": {
+                                        "type": "integer",
+                                        "format": "int32",
+                                        "minLength": 1,
+                                        "required": true
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "required": false,
+                                        "minItems": 1,
+                                        "items": {
+                                            "type": "string",
+                                            "minLength": 1
+                                        }
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "java" : {
+                                    "description": "example create todolist java",
+                                    "value": {
+                                        "name" : "Belajar programming java",
+                                        "priority" : 1,
+                                        "tags": [
+                                            "java",
+                                            "programming"
+                                        ]
+                                    }
+                                },
+                                "php" : {
+                                    "description": "example create todolist php",
+                                    "value" : {
+                                        "name" : "Belajar Programming php",
+                                        "priority" : 3,
+                                        "tags": [
+                                            "php",
+                                            "programming"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                },
+                "responses": {
+                    "200": {
+                        "description": "succes update todolist",
+                        "content": {
+                            "application/json" : {
+                                "schema": {
+                                    "type" : "object",
+                                    "properties": {
+                                        "id": {
+                                            "type" : "string"
+                                        },
+                                        "name": {
+                                            "type" :"string"
+                                        },
+                                        "priority":{
+                                            "type": "number",
+                                            "format": "int32"
+                                        },
+                                        "tags": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "java" : {
+                                        "description": "Succes create java todolist",
+                                        "value": {
+                                            "id":1,
+                                            "name": "Belajar pemrograman java",
+                                            "priority": 3,
+                                            "tags": [
+                                                "java",
+                                                "programming"
+                                            ]
+                                        }
+                                    },
+                                    "php" : {
+                                        "description": "Succes create php todolist",
+                                        "value": {
+                                            "id":2,
+                                            "name": "Belajar pemrograman php",
+                                            "priority": 2,
+                                            "tags": [
+                                                "php",
+                                                "programming"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            },
+            "delete":{
+                "tags": ["todolist"],
+                "summary": "Delete existing todolist",
+                "description": "Delete existing todolist in database",
+                "parameters": [
+                    {
+                        "name": "todolistId",
+                        "in": "path",
+                        "required": true,
+                        "description": "Todolist id for deleted",
+                        "schema" : {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200" : {
+                        "description": "succes delete todolist",
+                        "content": {
+                            "application/json" : {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "succes" : {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "success": {
+                                        "description": "succes delete todolist",
+                                        "value": {
+                                            "success": true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404" : {
+                        "description": "Failed to delete todolist",
+                        "content": {
+                            "application/json" : {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "succes" : {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "failed": {
+                                        "description": "failed delete todolist",
+                                        "value": {
+                                            "success": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        
+    }
+}
